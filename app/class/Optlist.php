@@ -74,6 +74,7 @@ class Optlist extends Optcode
             }
             if ($this->author()) {
                 $usermanager = new Modeluser();
+                $content .= '<span class="authors">';
                 foreach ($page->authors() as $author) {
                     try {
                         $user = $usermanager->get($author);
@@ -81,6 +82,7 @@ class Optlist extends Optcode
                     } catch (Notfoundexception $e) {
                     }
                 }
+                $content .= '</span>';
             }
             if ($this->thumbnail) {
                 if (!empty($page->thumbnail())) {
