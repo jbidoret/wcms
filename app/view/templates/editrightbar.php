@@ -1,4 +1,4 @@
-<div id="rightbar" class="bar">
+<div id="rightbar"  class="collapsible panel">
     <input
         id="showeditorrightpanel"
         name="showeditorrightpanel"
@@ -8,13 +8,13 @@
         form="workspace-form"
         <?= $workspace->showeditorrightpanel() === true ? 'checked' : '' ?>
     >
-    <label for="showeditorrightpanel" class="toogle">◧</label>
-    <div id="rightbarpanel" class="panel">
+    <label for="showeditorrightpanel" class="toggle-label"><span>◧</span></label>
+    <div id="rightbarpanel"  class="collapsible-content panel-section scroll" >
    
-        
+        <h1>Infos</h1>
         <?php if ($user->iseditor()) { ?>
+            
             <h3>Authors</h3>
-
             <?php foreach ($editorlist as $editor) { ?>
                 <div class="checkexternal">
                 <input
@@ -38,22 +38,19 @@
 
         <h3>Stats</h3>
 
-        <table>
-            <tbody>
-                <tr>
-                    <td>edition:</td>
-                    <td><?= $page->editcount() ?></td>
-                </tr>
-                <tr>
-                    <td>display:</td>
-                    <td><?= $page->displaycount() ?></td>
-                </tr>
-                <tr>
-                    <td>visit:</td>
-                    <td><?= $page->visitcount() ?></td>
-                </tr>
-            </tbody>
-        </table>
+        <p>
+            Edits:<br>
+            <?= $page->editcount() ?>
+        </p>
+        <p>
+            Displays:<br>
+            <?= $page->displaycount() ?>
+        </p>
+        <p>
+            Visits:<br>
+            <?= $page->visitcount() ?>
+        </p>
+            
 
     </div>
 

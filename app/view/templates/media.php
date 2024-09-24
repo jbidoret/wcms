@@ -14,62 +14,57 @@ $this->layout('layout', ['title' => 'media', 'stylesheets' => [$css . 'back.css'
 <main class="media">
 
 
-<nav class="media">
-    <div class="block">
-    <h2>Explorer</h2>
-        <div class="scroll">
-            <table id="dirlsit">
-            <tr><th>folder</th><th>files</th></tr>
+    <nav class="panel media">
+        <div class="block">
+            <h1>Explorer</h1>
+            <div class="scroll">
+                <table id="dirlist">
+                <tr><th>folder</th><th>files</th></tr>
 
-            <?php
+                <?php \Wcms\Modelmedia::treecount($dirlist, 'media', 0, 'media', $mediaopt->dir(), $mediaopt); ?>
 
-
-            \Wcms\Modelmedia::treecount($dirlist, 'media', 0, 'media', $mediaopt->dir(), $mediaopt);
-
-            ?>
-
-            </table>
+                </table>
+            </div>
+            
         </div>
-        
-    </div>
-</nav>
+    </nav>
 
-<div id="filter">
-    <div class="block">
-        <h2>filter</h2>
-        <div class="scroll">
-            <form action="" method="get">
-                <fieldset>
-                    <legend>Type</legend>
-                    <?= checkboxes('type', Wcms\Media::mediatypes(), $mediaopt->type()) ?>
-                </fieldset>
-                <fieldset>
-                    <legend>Sort</legend>
-                    <select name="sortby" id="sortby">
-                        <?= options(Wcms\Modelmedia::MEDIA_SORTBY, $mediaopt->sortby()) ?>
-                    </select>
-                    <ul>
-                        <li>
-                            <input type="radio" name="order" id="asc" value="1" <?= $mediaopt->order() == 1 ? 'checked' : '' ?>><label for="asc">ascending</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="order" id="desc" value="-1" <?= $mediaopt->order() == -1 ? 'checked' : '' ?>><label for="desc">descending</label>
-                        </li>
-                    </ul>
-                </fieldset>
-                <input type="hidden" name="path" value="<?= $mediaopt->path() ?>">
-                <input type="submit" value="filter">
-            </form>
+    <div class="panel" id="filter">
+        <div class="block">
+            <h1>Filter</h1>
+            <div class="scroll">
+                <form action="" method="get" class="panel-section">
+                    <fieldset>
+                        <legend>Type</legend>
+                        <?= checkboxes('type', Wcms\Media::mediatypes(), $mediaopt->type()) ?>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Sort</legend>
+                        <select name="sortby" id="sortby">
+                            <?= options(Wcms\Modelmedia::MEDIA_SORTBY, $mediaopt->sortby()) ?>
+                        </select>
+                        <ul>
+                            <li>
+                                <input type="radio" name="order" id="asc" value="1" <?= $mediaopt->order() == 1 ? 'checked' : '' ?>><label for="asc">ascending</label>
+                            </li>
+                            <li>
+                                <input type="radio" name="order" id="desc" value="-1" <?= $mediaopt->order() == -1 ? 'checked' : '' ?>><label for="desc">descending</label>
+                            </li>
+                        </ul>
+                    </fieldset>
+                    <input type="hidden" name="path" value="<?= $mediaopt->path() ?>">
+                    <input type="submit" value="filter">
+                </form>
+            </div>
         </div>
     </div>
-        </div>
 
 
 
-<section>
+<section class="panel">
     <div class="block">
 
-    <h2>
+    <h1>
         /<?= $mediaopt->dir() ?>
         <span class="right">
             <a href="<?= $mediaopt->getaddress() ?>&display=list" <?= $workspace->mediadisplay() === Wcms\Workspace::LIST ? 'class="selected"' : '' ?> >
@@ -79,7 +74,7 @@ $this->layout('layout', ['title' => 'media', 'stylesheets' => [$css . 'back.css'
                 <i class="fa fa-th-large"></i>
             </a>
         </span>
-    </h2>
+    </h1>
 
     <div class="scroll">
 

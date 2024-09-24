@@ -1,21 +1,18 @@
-section label, section input {
-    display: block;
-}
 
-section#profile {
-    max-width: 400px;
-}
 
-section label {
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-section input {
+input[type="text"],
+input[type="password"] {
     width: 100%;
-    margin: 3px 0;
 }
-
-section h2 {
-    margin-top: 50px;
+.profile > * {
+    flex: 1;
+}
+.pref-panel p:not(.field) {
+    margin: 1em 0;
+}
+.pref-panel {
+    padding: var(--padding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding);
 }

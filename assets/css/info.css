@@ -1,5 +1,5 @@
 section {
-    max-width: 650px;
+    /* max-width: 650px; */
 }
 
 
@@ -36,29 +36,26 @@ main blockquote i {
 }
 
 main article#manual h1 {
-    text-align: center;
-    font-size: 50px;
-    background-color: transparent;
-    font-weight: lighter;
-    margin: 6%;
-    border-top: solid;
-    border-bottom: solid;
+    display: none;
 }
 
 
 main article#manual h2 {
-    text-align: center;
+    text-transform: uppercase;
     font-size: 40px;
-    margin-top: 200px;
-    margin-bottom: 90px;
+    margin-block: 2em .5em;
+    font-size: clamp(3em, 3vw, 6em);
+    background: none;
 }
 
 main article#manual h3 {
-    border-bottom: solid 2px var(--secondary-background-color);
-    margin-top: 130px;
-    margin-bottom: 70px;
-    padding-top: 15px;
+    background-color: var(--main-color);
+    margin: 2em 0 1em;
+    padding: 0;
     font-size: 35px;
+    width: auto;
+    border-width: 2px;
+    background: none;
 }
 
 #manual table {
@@ -66,11 +63,9 @@ main article#manual h3 {
   }
 
 main article h4 {
-    background-color: var(--main-color);
+    border-bottom: solid 2px var(--main-color);
     font-size: x-large;
-    margin-top: 80px;
-    margin-bottom: 25px;
-    padding: 0 20px;
+    margin: 1em 0;
 }
 
 main article#manual h5 {
@@ -119,9 +114,10 @@ nav ul.summary {
 #manual {
     hyphens: auto;
     font-size: 1.1em;
-    margin: 6%;
+    max-width: 60em;
     user-select: text;
-}
+    margin: auto;
+  }
 
 #manual p {
     line-height: 1.4em;

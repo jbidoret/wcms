@@ -1,13 +1,21 @@
-.connect {
-    max-width: 250px;
-    margin: auto;
-}
 
 .connect input {
-    margin: 5px;
 }
 
 .connect form {
     display: flex;
     flex-direction: column;
+    padding: var(--padding);
+    gap: var(--padding);
 }
+.connect h2 {
+    padding: var(--padding);
+    border-radius: var(--radius) var(--radius) 0  0;
+}
+
+.connect {
+    max-width: 250px;
+    margin: auto;
+    height: auto;
+    border-radius: var(--radius);
+  }

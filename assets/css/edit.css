@@ -1,29 +1,13 @@
 #workspace {
     display: flex;
-    height: calc(100% - 50px);
+    gap: 1px;
+    /* :( */
+    height: calc(100% - 80px);
 }
 
+#showeditorrightpanel:checked ~ #rightbarpanel,
 #showeditorleftpanel:checked ~ #leftbarpanel {
-    display: block;
-}
-
-#showeditorrightpanel:checked ~ #rightbarpanel {
-    display: block;
-}
-
-.panel {
-    width: 250px;
-    height: 100%;
-    overflow-y: auto;
-    height: 100%;
-}
-
-#leftbar label.toogle {
-    float: right;
-}
-
-#rightbar label.toogle {
-    float: left;
+    min-width: 250px;
 }
 
 
@@ -34,13 +18,13 @@
     flex: 2;
     position: relative;
     height: 100%;
-    background-color: var(--primary-background-color);
+    background: var(--main-color);
     display: flex;
     overflow: hidden;
+    gap: var(--padding);
 }
 
-.tabs .tab .content
-{
+.tabs .tab .content {
 	position: absolute;
 	left: 0px;
 	width: 100%;
@@ -48,29 +32,34 @@
 	visibility: hidden;
 }
 
-.checkboxtab
-{
+.checkboxtab {
 	display: none;
 }
-
-.tab label
-{
-	margin-right: 8px;
+.tab:first-child {
+    margin-left: 1.75em;
+}
+.tab label {
 	display: inline-block;
+    position: relative;
+    padding: var(--half-padding) var(--padding) calc(var(--padding) + var(--half-padding));
+    top: 4px;
+    left: 4px;
+    vertical-align: top;
+    color: var(--text2-color);
 }
 
-.tab label.edited {
-    text-decoration: underline dotted red;
+.tab label.edited::after {
+    content: " *"
 }
 
 .tab label.template {
     color: var(--text2-color);
 }
 
-.checkboxtab:checked ~label
-{
-    background: var(--outline-background-color);
-    color: var(--outline-color);
+.checkboxtab:checked ~label {
+    background: var(--input-background-color);
+    color: var(--code-background-color);
+    border-radius: var(--radius) var(--radius) 0 0;
 }
 
 .checkboxtab:checked ~.content
@@ -94,33 +83,17 @@ div.editor {
 	padding: 1%;
 }
 
-.editor .tabs label {
-    padding: 1px;
-    height: 22px;
-}
-
-input#editfontsize {
-    width: 3em;
-}
 
 
-.editor aside {
-    display: flex;
-    flex-direction: row;
+.editor .navbar {
     justify-content: space-between;
-    flex-wrap: nowrap;
-    padding: 2px 3px;
 }
 
-aside#edittopbar .menu {
-    display: flex;
-  }
-  aside #pagemenu > span {
-    margin-right: 14px;
-  }
-  aside #workspacemenu > span {
-    margin-left: 10px;
-  }
+#edittopbar .flexrow {
+    > * { padding-inline: var(--padding);}
+}
+  
+
 
 .editor ul {
     list-style: none;
@@ -132,33 +105,36 @@ aside#edittopbar .menu {
     width: 100%;
 }
 
+#update:has(#editstatus:not(:empty)) button{
+    background-color: var(--outline-background-color);
+    color:var(--outline-color);
+}
 
 
 .editor .panel textarea {resize: vertical;}
 
 .editor .panel input, .editor .panel textarea {width: 100%;}
 
-
-
-
-details {
+.panel details {
     background-color: var(--secondary-background-color);
+    & + details { margin-top: 0;}
+}
+.panel summary {
+    background-color: var(--main-color);
+    color: var(--text2-color);
+    padding: var(--padding);    
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding);
 }
 
 input#fontsize {
     width: 50px;
 }
 
-span#headid {
-	color: var(--outline-color);
-	background-color: var(--outline-background-color);
-	text-wrap: nowrap;
-}
-
-a {
-    /* color: black; */
-    text-decoration: none;
-}
 
 a:hover {
     color: white;
@@ -200,13 +176,7 @@ a.icon {
     border: none;
 }
 
-.panel summary {
-    background-color: var(--main-color);
-}
 
-.panel summary:hover {
-    cursor: pointer;
-}
 
 #external label {
     width: 150px;
@@ -308,7 +278,12 @@ div#geomap {
     --tag-inset-shadow-size: 0;
     --loader-size: 0;
     --tags-focus-border-color: transparent;
+    --tag-bg: var(--input-background-color);
+    background: var(--tag-bg);
+    border:none;
+    border-radius: var(--radius);
     display: block;
+    width: 100%;
 }
 
 :root {

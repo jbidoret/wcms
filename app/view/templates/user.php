@@ -10,11 +10,11 @@ $this->layout('layout', ['title' => 'user', 'stylesheets' => [$css . 'back.css',
 
 <main class="user">
     
-    <section>
+    <section class="panel">
         
         <div class="block">
 
-            <h1>Admin panel</h1>
+            <h1>Users</h1>
             
             <div class="scroll">
 

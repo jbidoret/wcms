@@ -3,21 +3,6 @@ aside #edit input[type="submit"] {
 }
 
 
-main #filter {
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.panel {
-    overflow-y: auto;
-    height: 100%;
-    width: 200px;
-}
-
-#showeoptionspanel:checked ~ #optionspanel {
-    display: block;
-}
-
 
 main article#main {
     width: 100%;
@@ -55,15 +40,14 @@ main a.bookmark[data-current="1"] {
 }
 
 main a.bookmark {
-    display: block;
-    white-space: nowrap;
+    max-width: 15em;
 }
 
 
 div#deepsearchbar {
     background-color: var(--secondary-background-color);
-    line-height: 24px;
-    padding-left: 5px;
+    padding: var(--padding);
+    border-bottom: 1px solid var(--primary-background-color);
 }
 
 #deepsearchbar input[type=text] {

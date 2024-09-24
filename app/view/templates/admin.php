@@ -2,21 +2,19 @@
 
 $this->layout('layout', ['title' => 'admin', 'stylesheets' => [$css . 'back.css', $css . 'admin.css']]) ?>
 
-
 <?php $this->start('page') ?>
 
 <?php $this->insert('backtopbar', ['user' => $user, 'tab' => 'admin', 'pagelist' => $pagelist]) ?>
 
-
 <main class="admin">
 
-    <nav class="admin">
+    <nav class="admin panel ">
 
-        <div class="block">
+        <div class="block panel-section">
             <h1>Administration</h1>
 
             <div class="scroll">
-                <ul>
+                <ul class="linkslist">
                     <li><a href="#home-page">Home page</a></li>
                     <li><a href="#page-creation">Page creation</a></li>
                     <li><a href="#alert-pages">Alert Pages</a></li>
@@ -36,11 +34,11 @@ $this->layout('layout', ['title' => 'admin', 'stylesheets' => [$css . 'back.css'
         </div>
     </nav>
 
-    <section class="admin">
+    <section class="admin panel ">
 
-        <div class="block">
+        <div class="block panel-section">
 
-            <h1>configuration</h1>
+            <h1>Configuration</h1>
 
             <div class="scroll">
 
@@ -342,8 +340,9 @@ $this->layout('layout', ['title' => 'admin', 'stylesheets' => [$css . 'back.css'
 
     </section>
 
-    <section id="databases">
-        <div class="block">
+    <section id="databases" class="panel">
+
+<div class="block ">
             <h1>Databases</h1>
             <div class="scroll">
 
@@ -363,22 +362,29 @@ $this->layout('layout', ['title' => 'admin', 'stylesheets' => [$css . 'back.css'
 
             <h4>Duplicate Database</h4>
 
-            <form action="<?= $this->url('admindatabase') ?>" method="post">
+            <form action="<?= $this->url('admindatabase') ?>" method="post" class="flexrow">
 
-                <label for="dbsrc">Database to duplicate</label>
-                <select name="dbsrc" id="dbsrc">
-                    <?php
-                    foreach ($pagesdblist as $db) {
-                        ?>
-                        <option value="<?= $db ?>" <?= $db === Wcms\Config::pagetable() ? 'selected' : '' ?>><?= $db ?></option>
+                <p class="field">
+                    <label for="dbsrc">Database to duplicate</label>
+                    <select name="dbsrc" id="dbsrc">
                         <?php
-                    }
-                    ?>
-                </select>
+                        foreach ($pagesdblist as $db) {
+                            ?>
+                            <option value="<?= $db ?>" <?= $db === Wcms\Config::pagetable() ? 'selected' : '' ?>><?= $db ?></option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </p>
 
+                <p class="field">
                 <label for="duplicate">New name</label>
                 <input type="text" name="dbtarget" id="duplicate" value="" required>
+                </p>
+                
+                <p class="field submit">
                 <input type="submit" name="action" value="duplicate">
+                </p>
             </form>
 
 

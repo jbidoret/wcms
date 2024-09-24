@@ -39,36 +39,38 @@ use Wcms\Config;
 
 
 <main class="home">
-    <nav>
 
+    <nav class="panel">
         <?php $this->insert('homebookmark', ['publicbookmarks' => $publicbookmarks, 'personalbookmarks' => $personalbookmarks, 'queryaddress' => $queryaddress, 'display' => $display]) ?>
-
         <?php $this->insert('homeopt', ['opt' => $opt, 'user' => $user, 'display' => $display, 'workspace' => $workspace]) ?>
     </nav>
-    <section class="pages">
+
+    <section class="pages panel">
 
         <div class="block">
 
-            <h2>
-                Pages (<?= count($pagelistopt) ?>)
-                <?php if($opt->isfiltered()) { ?>
-                    <span class="badge filter">
+            <h1 class="flexrow">
+                <div>
+                    Pages (<?= count($pagelistopt) ?>)
+                    <?php if($opt->isfiltered()) { ?>
+                        <span class="badge filter">
 
-                        <i class="fa fa-filter" title="There are active filters"></i>
-                        <a href="?submit=reset&display=<?= $display ?>" class="button" title="remove filters">
-                            <i class="fa fa-times-circle"></i>
-                        </a>
-                    </span>
-                <?php } ?>
-                <?php if(!empty($deepsearch)) { ?>
-                    <i class="fa fa-search" title="There is active search"></i>
-                <?php } ?>
-                <span class="right">
+                            <i class="fa fa-filter" title="There are active filters"></i>
+                            <a href="?submit=reset&display=<?= $display ?>" class="button" title="remove filters">
+                                <i class="fa fa-times-circle"></i>
+                            </a>
+                        </span>
+                    <?php } ?>
+                    <?php if(!empty($deepsearch)) { ?>
+                        <i class="fa fa-search" title="There is active search"></i>
+                    <?php } ?>
+                </div>
+                <div class="right">
                     <a href="?display=list" <?= $display === 'list' ? 'class="selected"' : '' ?> ><i class="fa fa-th-list"></i></a>
                     <a href="?display=graph"  <?= $display === 'graph' ? 'class="selected"' : '' ?>  ><i class="fa fa-sitemap"></i></a>
                     <a href="?display=map" <?= $display === 'map' ? 'class="selected"' : '' ?> ><i class="fa fa-globe"></i></a>
-                </span>
-            </h2>
+                </div>
+            </h1>
 
             <?php if($display === 'graph') { ?>
 

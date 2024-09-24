@@ -1,23 +1,24 @@
-<aside id="edittopbar">
+<nav id="edittopbar" class="navbar">
 
-    <span class="menu" id="pagemenu">
-        <span>
-            <form
-                action="<?= $this->upage('pageupdate', $page->id()) ?>"
-                method="post"
-                id="update"
-                data-api="<?= $this->upage('apipageupdate', $page->id()) ?>"
-            >
-                <button type="submit" accesskey="s" >
-                    <i class="fa fa-save"></i>
-                    <span class="text">update</span>
-                </button>
-            </form>
-        </span>
+    <div class="flexrow" id="pagemenu">
+        
+        <form
+            action="<?= $this->upage('pageupdate', $page->id()) ?>"
+            method="post"
+            id="update"
+            data-api="<?= $this->upage('apipageupdate', $page->id()) ?>"
+        >
+            <button type="submit" accesskey="s" >
+                <i class="fa fa-save"></i>
+                <span class="text">update</span>
+                <span id="headid">
+                    <span class="pageid"><?= $page->id() ?></span> 
+                    <span id="editstatus"></span>
+                </span>
+            </button>
+        </form>
 
-        <span id="headid">
-            <span id="editstatus"></span><span class="pageid"><?= $page->id() ?></span>
-        </span>
+        
 
         <span>
             <a href="<?= $this->upage('pageread', $page->id()) ?>" target="<?= $target ?>" id="display">
@@ -44,7 +45,7 @@
             </span>
         <?php } ?>
 
-    </span>
+    </div>
     <span class="menu" id="workspacemenu">
 
         <span id="fontsize">
@@ -83,4 +84,4 @@
 
 </span>
 
-</aside>
+</nav>

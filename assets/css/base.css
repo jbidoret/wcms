@@ -1,3 +1,12 @@
+:root {
+    --padding: .5rem;
+    --radius: .25rem;
+    --size-small: .85em;
+    --reset-padding: calc(var(--padding) * -1);
+    --half-padding: calc(var(--padding) / 2);
+    --double-padding: calc(var(--padding) * 2);
+}
+
 * {
     box-sizing: border-box;
     scrollbar-color: var(--main-color) transparent;
@@ -16,29 +25,48 @@ body {
     margin: 0;
     height: 100%;
     background-color: var(--tertiary-background-color);
-    font-family: sans-serif;
+    font-family: var(--fontfamily, sans-serif);
     font-size: 15px;
     position: fixed;
     display: flex;
     flex-direction: column;
+    gap: 1px;
     width: 100%;
     color: var(--text-color);
+    user-select: none;
 }
 
-input, textarea, button, select, .field {
+p, code {
+    user-select: text;
+}
+
+
+a, button, input, select, textarea {
+    text-decoration: none;
+    color: var(--text2-color);
+}
+code.select-all {
+    user-select: all;
+}
+
+input, textarea, button, select {
+    font: inherit;
     border: none;
     accent-color: var(--main-color);
+    font-size: var(--size-small);
+    padding: var(--padding);
+    border-radius: var(--radius);
 }
 
-input, textarea, .field {
-    color: var(--input-color)!important;
-    border-color: var(--input-color);
+input, textarea {
+    color: var(--input-color);
+    border-color: currentColor;
     background-color: var(--input-background-color);
 }
 
 input[type="submit"], button, select {
-    color: var(--button-color)!important;
-    border-color: var(--button-color);
+    color: var(--button-color);
+    border-color: currentColor;
     background-color: var(--button-background-color);
 }
 
@@ -47,33 +75,48 @@ h1, h2 {
     background-color: var(--main-color);
 }
 
-a, button, input, select, textarea, .field {
-    text-decoration: none;
-    color: var(--text2-color);
-}
-
-
-
 h1, h2 {
     margin: 0;
-    font-size: larger;
 }
 
+summary, input[type="submit"], input[type="file"], button {
+    cursor: pointer;
+}
+
+/* --------------------------------------------------------- helpers */
+.flexrow {
+    display: flex;
+    flex-direction: row;
+    gap: var(--padding);
+    &.reverse { flex-direction: row-reverse;}
+    > * { 
+        flex: 1 auto;
+        align-items: center;
+        justify-content: center;
+        gap: var(--padding);
+        display: flex;
+    }
+}
+
+.flexcol {
+    display: flex;
+    flex-direction: col;
+    gap: var(--padding);
+    &.reverse { flex-direction: column-reverse;}
+}
+
+/* --------------------------------------------------------- topbar */
 #topbar {
     background-color: var(--main-color);
-    width: 100%;
-    padding: 4px 3px;
+    width: 100%;    
     display: flex;
+    justify-content: space-between;
+    padding: var(--padding);
 }
-
-#topbar form {
-    display: inline;
-}
-
-
-#topbar span#menu {
-    display: inline-block;
-    margin: 0 1%;
+#topbar > div { 
+    display: flex; 
+    gap: var(--padding); 
+    align-items: center;
 }
 
 #topbar input[type="text"], #topbar input[type="password"] {width: 100px;}
@@ -83,70 +126,243 @@ h1, h2 {
     text-decoration: underline;
 }
 
-span#user {
-    margin-left: auto; /* align to the right */
-}
-
-aside {
+/* --------------------------------------------------------- navbar */
+.navbar {
     background-color: var(--secondary-background-color);
+    display: flex;
+    padding: var(--padding) ;
+    gap: var(--padding); 
+}
+.navbar a {
+    color: var(--text-color);
 }
 
-aside summary {
+.navbar summary {
     list-style: none;
+    padding: var(--half-padding) var(--padding);
+    border-radius: var(--radius);
+    /* white-space: nowrap; */
+}
+.navbar .submenu {
+    background-color: var(--outline-background-color);
+    width: min-content;    
+    border: var(--padding) solid var(--outline-background-color);
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding);
+    overflow-x: hidden;
+    position: absolute;
+    max-height: 85%;
+    overflow-y: auto;
+    z-index: 10000;
+    box-shadow: 0px 14px 14px #24242430;
+    border-radius: 0 var(--radius) var(--radius) var(--radius);
 }
 
-
-
-summary {
-    white-space: nowrap;
+.navbar summary:hover,
+.navbar [open] summary {
+    background-color: var(--outline-background-color);
+    color: var(--outline-color);
+}
+.navbar [open] summary {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
-summary:hover, input[type="submit"], input[type="file"], button {
-    cursor: pointer;
+.navbar  code {
+    overflow-x: auto;
 }
 
+.navbar  #save-workspace {
+    position: absolute;
+    right: 0;
+}
+.navbar h2 {
+    font-size: 1em;
+    background-color: var(--outline-background-color);
+    padding: 0 0 var(--padding); 
+    margin: var(--reset-padding) var(--reset-padding) 0;
+}
+.navbar h3{
+    font-size: 1em;
+    padding: var(--padding) var(--padding) var(--half-padding); 
+    border-bottom: 1px solid var(--outline-background-color);
+    margin: 0 var(--reset-padding) 0;
+} 
+.submenu-section {
+    background: var(--secondary-background-color);
+    padding: var(--padding); 
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding);
+}
 
+.field { 
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    label { display: block; font-size: var(--size-small); padding-bottom: var(--half-padding);}
+    label + input[type="text"],
+    label + input[type="number"],
+    label + input[type="color"],
+    label + select { width: 100%; }
+    /* &:not(:has(* + *)) {display: block;} */
+    &:has([type="checkbox"]),
+    &:has([type="radio"]),
+    &:has([type="color"]) { 
+        flex-direction: row-reverse; align-items: center;
+        gap: var(--padding);
+        label { flex: 1;}
+    }    
+    &:has([type="color"]) input { flex: 1; padding: 0;}
+  }
+  .submit {
+    flex-direction: row;
+    justify-content: end;
+    align-items: end;
+  }
+  .submit [type=submit], .submit button {
+    background: var(--outline-background-color);
+    color: var(--text2-color);
+    font-weight: bold;
+  }
+
+/* --------------------------------------------------------- links list (home, admin) */
+
+.linkslist {
+    padding: var(--padding) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding);
+    li {
+        display: flex;
+        justify-content: space-between;
+    }
+    a {
+        display: flex;
+        justify-content: stretch;
+        width: 100%;
+    }
+    a:hover {
+        background-color: var(--outline-background-color);
+        color: var(--outline-color);
+    }
+    .rss {
+        width: min-content;
+    }
+    
+}
+
+/* --------------------------------------------------------- nav panel */
+.panel {
+    display: flex;
+    gap: 1px;
+}
+
+.panel h1 {
+    font-size: 1em;
+    background-color: var(--outline-background-color);
+    padding: var(--padding); 
+    display: flex;
+    justify-content: space-between;
+    & > * { flex: inherit;}
+}
+.panel-section h1 {
+    /* margin: var(--reset-padding) var(--reset-padding) 0; */
+}
+.panel h2 {
+    font-size: 1em;
+    background-color:var(--secondary-background-color);
+    color: var(--text-color);
+    padding: var(--padding); 
+    margin: 0 var(--reset-padding);
+    &:first-child { margin-top: var(--reset-padding);}
+    &:not(:first-child) { margin-top: 2em;}
+}
+
+.panel h3,
+.panel legend{
+    font-weight: bold;
+    width: calc(100% + var(--double-padding));
+    font-size: 1em;
+    padding: var(--padding) var(--padding) var(--half-padding); 
+    border-bottom: 1px solid var(--tertiary-background-color);
+    margin: 0 var(--reset-padding) var(--padding);
+    /* &:first-child { margin-top: 1em;} */
+} 
+.panel-section {
+    background: var(--primary-background-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.scroll {
+    overflow: auto;
+    height: 100%;
+    max-width: 100%;
+    padding: var(--padding);
+}
+.editbar-scroll {
+    padding: 0;
+}
+/* --------------------------------------------------------- tables */
+.scroll table {
+    width: calc(100% + var(--double-padding));
+    margin: var(--reset-padding) var(--reset-padding) 1em;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+table th, 
+table td {
+    text-align: left;
+    padding: var(--padding);
+}
+table tr td {
+  border-bottom: 1px solid var(--tertiary-background-color);
+}
+/* --------------------------------------------------------- vbar */
 .bar {
     background-color: var(--primary-background-color);
 }
 
-.panel {
+.collapsible {
+    display: flex;
+    flex-direction: row-reverse;
+}
+.collapsible .collapsible-content {
     display: none;
 }
 
-label.toogle {
+.toggle-label {
     height: 100%;
-    line-height: 100%;
-    text-align: center;
+    font-size: 1em;
+    cursor: pointer;
+    background: var(--primary-background-color);
+    span {
+        background-color: var(--outline-background-color);
+        color: var(--text2-color);
+        padding: var(--padding) var(--half-padding);    
+        display: block;     
+    }
 }
 
-label.toogle:hover {
-    color: var(--outline-color);
-    cursor: pointer;
+.toggle-label:hover {
     background-color: var(--outline-background-color);
 }
 
+:checked ~ .collapsible-content {
+    display: flex;
+    flex-direction: column;
+    max-width: min-content;
+}
 /* Used for interface modification using hidden checkboxes */
 input.toggle {
     display: none;
 }
 
-label.toogle {
-    width: 15px;
-}
-
-
-body {
-    user-select: none;
-}
-
-p, code {
-    user-select: text;
-}
-
-code.select-all {
-    user-select: all;
-}
 
 
 @media (max-width: 750px) {
@@ -208,7 +424,6 @@ code.select-all {
 
 #flashmessage {
     color: white;
-    border: solid white 1px;
     position: fixed;
     animation-delay: 5s;
     animation-name: flash;
@@ -229,6 +444,9 @@ div#flashmessage:target {
     z-index: 5;
 }
 
+#flashmessage li {
+    padding: var(--padding);
+}
 
 #flashmessage li.alert-info {
     background-color: grey;
@@ -263,6 +481,3 @@ table a, li a {
 }
 
 
-.panel input, .panel select, .panel textarea {
-    margin-bottom: 3px;
-}

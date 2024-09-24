@@ -17,14 +17,13 @@ $this->layout('layout', ['title' => '✏ '.$page->title(), 'stylesheets' => [
 
     <?php $this->insert('backtopbar', ['user' => $user, 'tab' => 'edit', 'pagelist' => $pagelist, 'pageid' => $page->id()]) ?>
 
-
     <?php $this->insert('edittopbar', ['page' => $page, 'user' => $user, 'workspace' => $workspace, 'target' => $target]) ?>
 
     <div id="workspace">
 
-    <?php $this->insert('editleftbar', ['page' => $page, 'pagelist' => $pagelist, 'faviconlist' => $faviconlist, 'thumbnaillist' => $thumbnaillist, 'workspace' => $workspace]) ?>
-    <?php $this->insert('edittabs', ['tablist' => $page->tabs(), 'opentab' => $page->interface()]) ?>
-    <?php $this->insert('editrightbar', ['page' => $page, 'pagelist' => $pagelist, 'editorlist' => $editorlist, 'user' => $user, 'workspace' => $workspace]) ?>
+        <?php $this->insert('editleftbar', ['page' => $page, 'pagelist' => $pagelist, 'faviconlist' => $faviconlist, 'thumbnaillist' => $thumbnaillist, 'workspace' => $workspace]) ?>
+        <?php $this->insert('edittabs', ['tablist' => $page->tabs(), 'opentab' => $page->interface()]) ?>
+        <?php $this->insert('editrightbar', ['page' => $page, 'pagelist' => $pagelist, 'editorlist' => $editorlist, 'user' => $user, 'workspace' => $workspace]) ?>
 
     </div>
 

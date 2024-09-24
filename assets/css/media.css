@@ -1,6 +1,16 @@
 main code {
     font-size: 12px;
 }
+#filter legend {
+    margin-top: calc( var(--half-padding) * -1);
+}
+#dirlist td {
+    border: none;
+}
+table#medialist {
+    /* to accomodate section gap… */
+    /* margin-top: -1px; */
+}
 
 table#medialist .thumbnail .lightbox {
     display: none;
