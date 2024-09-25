@@ -1,5 +1,20 @@
 # W-CMS
 
+W is a wonderful CMS.
+
+Nevertheless, in my eyes, its back-office is quite tough :) 
+
+This fork is my attempt to soften the look and feel of the UI, mainly by adding white space everywhere and by systematize the building of ui elements.
+
+- every field is wrapped within a `<p class="field">`
+- every submit is wrapped within a `<p class="field submit">`
+- the markup of UI elements (nav bars, dropdowns, nav panels, filters, main panels) has been modified so that we have better hooks to set up a better hierarchy; we now have `.navbar`, `.submenu`, `.collapsible`, `.panel`, that can wrap sub-containers : `.submenu-section`, `collapsible-content`, `panel-section` and `scroll`…
+- within these elements, `h1`, `h2`, `h3`, `legend` try to be reliable in style and hierarchy.
+
+This is a first attempt to discover W UI and theming. This first draft deserves to be reworked from A to Z!
+
+---
+
 [![checks][github]][action] ![style][codestyle] ![phpstan][phpstan] [![coverage][coverage]][codecov]
 
 W is a lightweight CMS tool, meant to help you design a website using a unique approach. It's targeting artists, or experimental projects.
