@@ -53,7 +53,7 @@ class Controllerhome extends Controller
                 $servicetags = new Servicetags();
                 $vars['colors'] = $servicetags->synctags($this->opt->taglist());
             } catch (RuntimeException $e) {
-                Model::sendflashmessage("Error while generating display colors", Model::FLASH_ERROR);
+                $this->sendflashmessage("Error while generating display colors", self::FLASH_ERROR);
                 Logger::errorex($e);
             }
 
@@ -195,9 +195,9 @@ class Controllerhome extends Controller
                 $user = $this->usermanager->get($this->user->id());
                 $user->setcolumns($_POST['columns']);
                 $this->usermanager->add($user);
-                Model::sendflashmessage('Display settings successfully saved', Model::FLASH_SUCCESS);
+                $this->sendflashmessage('Display settings successfully saved', self::FLASH_SUCCESS);
             } catch (Databaseexception $e) {
-                Model::sendflashmessage('Error while trying to save display settings', Model::FLASH_ERROR);
+                $this->sendflashmessage('Error while trying to save display settings', self::FLASH_ERROR);
             }
         }
         $this->routedirect('home');
@@ -210,7 +210,7 @@ class Controllerhome extends Controller
                 $servicetags = new Servicetags();
                 $servicetags->updatecolors($_POST);
             } catch (RuntimeException $e) {
-                Model::sendflashmessage("Error while saving display colors", Model::FLASH_ERROR);
+                $this->sendflashmessage("Error while saving display colors", self::FLASH_ERROR);
                 Logger::errorex($e);
             }
         }
@@ -240,9 +240,9 @@ class Controllerhome extends Controller
     {
         try {
             $this->pagemanager->flushrendercache();
-            Model::sendflashmessage('Render cache successfully deleted', Model::FLASH_SUCCESS);
+            $this->sendflashmessage('Render cache successfully deleted', self::FLASH_SUCCESS);
         } catch (RuntimeException $e) {
-            Model::sendflashmessage($e->getMessage(), Model::FLASH_ERROR);
+            $this->sendflashmessage($e->getMessage(), self::FLASH_ERROR);
             Logger::errorex($e);
         }
         $this->routedirect('home');
@@ -266,7 +266,7 @@ class Controllerhome extends Controller
             }
         } else {
             $action = $_POST['action'] ?? 'edit';
-            Model::sendflashmessage('Please select some pages to ' . $action, 'warning');
+            $this->sendflashmessage('Please select some pages to ' . $action, self::FLASH_WARNING);
         }
         $this->routedirect('home');
     }
@@ -302,16 +302,20 @@ class Controllerhome extends Controller
         $this->sendstatflashmessage($count, $total, 'pages have been edited');
     }
 
-    public function multirender()
+    public function multirender(): void
     {
         $pagelist = $_POST['pagesid'] ?? [];
         $total = count($pagelist);
         $pagelist = $this->pagemanager->pagelistbyid($pagelist);
         $count = 0;
         foreach ($pagelist as $page) {
-            $page = $this->pagemanager->renderpage($page, $this->router);
-            if ($this->pagemanager->update($page)) {
-                $count++;
+            try {
+                $page = $this->pagemanager->renderpage($page, $this->router);
+                if ($this->pagemanager->update($page)) {
+                    $count++;
+                }
+            } catch (RuntimeException $e) {
+                Logger::errorex($e);
             }
         }
         $this->sendstatflashmessage($count, $total, 'pages have been rendered');
@@ -330,7 +334,7 @@ class Controllerhome extends Controller
             }
             $this->sendstatflashmessage($count, $total, 'pages have been deleted');
         } else {
-            Model::sendflashmessage('Confirm delete has not been cheked', 'warning');
+            $this->sendflashmessage('Confirm delete has not been cheked', self::FLASH_WARNING);
         }
     }
 }

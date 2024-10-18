@@ -21,7 +21,8 @@ class Modelpage extends Modeldb
         2 => 'not_published'
     ];
 
-    protected $pagelist = [];
+    /** @var Page[] $pagelist */
+    protected array $pagelist = [];
 
     public function __construct(string $pagetable, string $pagedir = self::PAGES_DIR)
     {
@@ -291,7 +292,7 @@ class Modelpage extends Modeldb
      *
      * @throws Filesystemexception          If a file deletion failure occurs
      */
-    public function unlink(string $pageid)
+    public function unlink(string $pageid): void
     {
         $files = ['.css', '.quick.css', '.js'];
         foreach ($files as $file) {
@@ -345,14 +346,14 @@ class Modelpage extends Modeldb
      * Edit a page based on meta infos
      *
      * @param string $pageid
-     * @param array $datas
-     * @param array $reset
+     * @param mixed[] $datas
+     * @param string[] $reset
      * @param string $addtag
      * @param string $addauthor
      *
      * @throws RuntimeException             When page is not found in the database or update failed
      */
-    public function pageedit(string $pageid, array $datas, array $reset, string $addtag, string $addauthor)
+    public function pageedit(string $pageid, array $datas, array $reset, string $addtag, string $addauthor): void
     {
         $page = $this->get($pageid);
         $page = $this->reset($page, $reset);
@@ -368,11 +369,11 @@ class Modelpage extends Modeldb
      * Reset values of a page
      *
      * @param Page $page                    Page object to be reseted
-     * @param array $reset                  List of parameters needing reset
+     * @param string[] $reset                  List of parameters needing reset
      *
      * @return Page                         The reseted page object
      */
-    public function reset(Page $page, array $reset): Page
+    protected function reset(Page $page, array $reset): Page
     {
         $now = new DateTimeImmutable("now", timezone_open("Europe/Paris"));
         if (boolval($reset['tag'])) {
@@ -436,6 +437,8 @@ class Modelpage extends Modeldb
      * @param Page $page input
      *
      * @return Page rendered $page
+     *
+     * @throws Runtimeexception if whriting files to filesystem failed
      */
     public function renderpage(Page $page, AltoRouter $router): Page
     {
@@ -454,21 +457,16 @@ class Modelpage extends Modeldb
                 throw new DomainException('Page version is out of range');
         }
 
-        try {
-            $html = $renderengine->render($page);
-            Fs::dircheck(Model::ASSETS_RENDER_DIR, true, 0775);
-            Fs::dircheck(Model::HTML_RENDER_DIR, true, 0775);
-            Fs::writefile(Model::HTML_RENDER_DIR . $page->id() . '.html', $html);
-            Fs::writefile(Model::ASSETS_RENDER_DIR . $page->id() . '.css', $page->css(), 0664);
-            Fs::writefile(Model::ASSETS_RENDER_DIR . $page->id() . '.js', $page->javascript(), 0664);
+        $html = $renderengine->render($page);
+        Fs::dircheck(Model::ASSETS_RENDER_DIR, true, 0775);
+        Fs::dircheck(Model::HTML_RENDER_DIR, true, 0775);
+        Fs::writefile(Model::HTML_RENDER_DIR . $page->id() . '.html', $html);
+        Fs::writefile(Model::ASSETS_RENDER_DIR . $page->id() . '.css', $page->css(), 0664);
+        Fs::writefile(Model::ASSETS_RENDER_DIR . $page->id() . '.js', $page->javascript(), 0664);
 
-            $page->setdaterender($now);
-            $page->setlinkto($renderengine->linkto());
-            $page->setpostprocessaction($renderengine->postprocessaction());
-        } catch (RuntimeException $e) {
-            Model::sendflashmessage("Error while saving render files", Model::FLASH_ERROR);
-            Logger::errorex($e);
-        }
+        $page->setdaterender($now);
+        $page->setlinkto($renderengine->linkto());
+        $page->setpostprocessaction($renderengine->postprocessaction());
 
         return $page;
     }
@@ -490,7 +488,7 @@ class Modelpage extends Modeldb
      * @param Opt $opt
      *
      * @param string $regex                 Regex to match.
-     * @param array $searchopt              Option search, could be `content` `title` `description`.
+     * @param string[] $searchopt              Option search, could be `content` `title` `description`.
      *
      * @return Page[]                       associative array of `Page` objects
      */
@@ -563,14 +561,16 @@ class Modelpage extends Modeldb
         return $pagelist;
     }
 
-
-    protected function pagecompare($page1, $page2, $method = 'id', $order = 1)
+    /**
+     * @todo It can go in great-parent class Model to be used as well by Modelmedia. Using Item instead of Page
+     */
+    protected function pagecompare(Page $page1, Page $page2, $method = 'id', $order = 1): int
     {
         $result = ($page1->$method('sort') <=> $page2->$method('sort'));
         return $result * $order;
     }
 
-    protected function buildsorter($sortby, $order)
+    protected function buildsorter(string $sortby, int $order): callable
     {
         return function ($page1, $page2) use ($sortby, $order) {
             $result = $this->pagecompare($page1, $page2, $sortby, $order);
@@ -579,8 +579,12 @@ class Modelpage extends Modeldb
     }
 
 
-
-    protected function pagelistsort(&$pagelist, $sortby, $order = 1)
+    /**
+     * @param Page[] $pagelist
+     *
+     * @todo remove this method and put the content inside sort() method
+     */
+    protected function pagelistsort(array &$pagelist, string $sortby, $order = 1): bool
     {
         return uasort($pagelist, $this->buildsorter($sortby, $order));
     }
@@ -729,7 +733,7 @@ class Modelpage extends Modeldb
         }
     }
 
-    protected function fversion(Page $page, int $version)
+    protected function fversion(Page $page, int $version): bool
     {
         if ($version === 0) {
             return true;
@@ -746,7 +750,7 @@ class Modelpage extends Modeldb
      * @param string $regex                 Regex to match.
      * @param string[] $options             Option search, could be `content` `title` `description`.
      *
-     * @return array associative array of `Page` objects
+     * @return Page[] associative array of `Page` objects
      */
     protected function deepsearch(array $pagelist, string $regex, array $options): array
     {
@@ -755,7 +759,7 @@ class Modelpage extends Modeldb
         } else {
             $case = 'i';
         }
-        $regex = '/' . $regex . '/' . $case;
+        $regex = '/' . preg_quote($regex, '/') . '/';
         $pageselected = [];
         foreach ($pagelist as $page) {
             $count = 0;

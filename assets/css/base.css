@@ -1,3 +1,15 @@
+:root {
+    --spacing: .5rem; /* better when non zero */
+    --padding: .5rem; /* can be zero to remind old style w look */
+    --radius: .25rem; /* border-radius on buttons and inputs */
+    --size-small: .85em; /* small sizes */
+    /* padding adjustments : */
+    --reset-padding: calc(var(--padding) * -1);
+    --half-padding: calc(var(--padding) / 2);
+    --double-padding: calc(var(--padding) * 2);
+    --gap: 1px; /* 1px for separated columns & panels, 0 for collapsed ones */
+}
+
 * {
     box-sizing: border-box;
     scrollbar-color: var(--main-color) transparent;
@@ -23,41 +35,119 @@ body {
     flex-direction: column;
     width: 100%;
     color: var(--text-color);
-}
-
-input, textarea, button, select, .field {
-    border: none;
-    accent-color: var(--main-color);
-}
-
-input, textarea, .field {
-    color: var(--input-color)!important;
-    border-color: var(--input-color);
-    background-color: var(--input-background-color);
-}
-
-input[type="submit"], button, select {
-    color: var(--button-color)!important;
-    border-color: var(--button-color);
-    background-color: var(--button-background-color);
+    gap: var(--gap,0);
+    user-select: none;
 }
 
 h1, h2 {
+    margin: 0;
     color: var(--text2-color);
     background-color: var(--main-color);
 }
 
-a, button, input, select, textarea, .field {
+p, code {
+    user-select: text;
+}
+
+a {
     text-decoration: none;
-    color: var(--text2-color);
+    color: currentColor;
+}
+
+/* --------------------------------------------------------- inputs and buttons */
+
+input, textarea, button, select, .button {
+    font: inherit;
+    border: none;
+    accent-color: var(--main-color);
+    font-size: var(--size-small);
+    padding: var(--padding);
+    border-radius: var(--radius);
+}
+
+input, textarea {
+    color: var(--input-color);
+    border-color: var(--input-color);
+    background-color: var(--input-background-color);
+}
+
+input[type="submit"], input[type="file"], button, select {
+    color: var(--button-color);
+    border-color: var(--button-color);
+    background-color: var(--button-background-color);
+    cursor: pointer;
 }
 
 
+/* --------------------------------------------------------- fields */
 
-h1, h2 {
+.field { 
     margin: 0;
-    font-size: larger;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 }
+.field label { 
+    display: block; 
+    font-size: var(--size-small); 
+    padding-bottom: var(--half-padding);
+}
+
+.field label + input[type="text"],
+.field label + input[type="number"],
+.field label + input[type="color"],
+.field label + select { width: 100%; }
+    
+.field:has([type="checkbox"]),
+.field:has([type="radio"]),
+.field:has([type="color"]) { 
+    flex-direction: row-reverse; 
+    align-items: center;
+    gap: var(--padding);
+    label { flex: 1;}
+}    
+.field:has([type="color"]) input { 
+    flex: 1; 
+    padding: 0;
+}
+
+.submit {
+    flex-direction: row;
+    justify-content: end;
+    align-items: end;
+}
+.submit [type=submit], .submit button {
+    background: var(--outline-background-color);
+    color: var(--text2-color);
+    font-weight: bold;
+}
+
+
+/* --------------------------------------------------------- layout helpers */
+
+.flexrow {
+    display: flex;
+    flex-direction: row;
+    gap: var(--padding);
+}
+.flexrow.reverse { 
+    flex-direction: row-reverse;
+}
+.flexrow > * { 
+    flex: 1 auto;
+    align-items: center;
+    justify-content: center;
+    gap: var(--padding);
+    display: flex;
+}
+.flexcol {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding);
+}
+
+
+/* --------------------------------------------------------- topbar */
 
 #topbar {
     background-color: var(--main-color);
