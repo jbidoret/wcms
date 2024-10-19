@@ -325,17 +325,6 @@ abstract class Servicerender
     }
 
     /**
-     * Look for datas about pages.
-     *
-     * @param string $text the page text as html
-     */
-    protected function richlink(string $text): string
-    {
-        $text = preg_replace('#<a(.*href="(https?:\/\/(.+))".*)>\2</a>#', "<a$1>$3</a>", $text);
-        return $text;
-    }
-
-    /**
      * Replace plain URL with HTML link pointing to their address.
      *
      * This will also include `target=_blank` and `class=external` attributes.
@@ -531,11 +520,11 @@ abstract class Servicerender
                 }
                 $this->sum[$element][] = new Header($id, intval($level), $content);
                 switch ($anchormode) {
-                    case Element::HEADERANCHORLINK:
+                    case Element::HEADER_ANCHOR_LINK:
                         $content = "<a href=\"#$id\">$content</a>";
                         break;
 
-                    case Element::HEADERANCHORHASH:
+                    case Element::HEADER_ANCHOR_HASH:
                         $content .= "<span class=\"nbsp\">&nbsp;</span><a class=\"headerlink\" href=\"#$id\">#</a>";
                         break;
                 }

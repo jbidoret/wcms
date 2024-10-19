@@ -100,6 +100,8 @@ $this->layout('layout', ['title' => 'media', 'stylesheets' => [$css . 'back.css'
                     <img src="<?= $media->getabsolutepath() ?>" loading="lazy">
                 <?php } elseif($media->type() === 'video' || $media->type() === 'sound') { ?>
                     <?= $media->getcode(true) ?>
+                <?php } elseif($media->type() === 'font') { ?>
+                    <span  style="<?= $media->getcode() ?>">Abc</span>
                 <?php } else { ?>
                     <i class="fa fa-<?= $media->getsymbol() ?>"></i>
                 <?php } ?>
@@ -153,6 +155,7 @@ $this->layout('layout', ['title' => 'media', 'stylesheets' => [$css . 'back.css'
                 </th>
                 <th>user</th>
                 <th>perms</th>
+                <th>s</th>
                 <th>code</th>
             </tr>
         </thead>
@@ -167,7 +170,6 @@ $this->layout('layout', ['title' => 'media', 'stylesheets' => [$css . 'back.css'
                 <?php if ($user->issupereditor()) { ?>
                 <details>
                     <summary>
-                            <span><?= $media->filename() ?></span>
                             <i class="fa fa-pencil"></i>
                     </summary>
                     <form action="<?= $this->url('mediarename') ?>" method="post">
@@ -178,6 +180,7 @@ $this->layout('layout', ['title' => 'media', 'stylesheets' => [$css . 'back.css'
                         <input type="submit" value="rename">
                     </form>
                 </details>
+                <label for="media_<?= $media->filename() ?>"><?= $media->filename() ?></label>
                 <?php } else { ?>
                     <span><?= $media->filename() ?></span>
                 <?php } ?>
@@ -204,6 +207,14 @@ $this->layout('layout', ['title' => 'media', 'stylesheets' => [$css . 'back.css'
             <td class="nowrap" title="<?= $media->date('dmy') ?> <?= $media->date('ptime') ?>"><?= $media->date('hrdi') ?></td>
             <td><?= $media->uid('name') ?></td>
             <td><code><?= $media->permissions() ?></code></td>
+            <td>
+                <a
+                    href="<?= $this->url('home', [], '?search=' . $media->getlocalpath() . '&id=1&title=1&description=1&content=1&other=1&case=1&submit=reset') ?>"
+                    title="search if this media is used in your pages"
+                >
+                    <i class="fa fa-search"></i>
+                </a>
+            </td>
             <td>
                 <code class="select-all"><?= $this->e($media->getcode()) ?></code>
             </td>
